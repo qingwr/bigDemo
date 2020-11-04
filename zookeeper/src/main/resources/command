@@ -1,0 +1,48 @@
+shell --
+./bin/zkCli.sh --进入zookeeper 命令界面
+./bin/zkCli.sh -server ip:port
+
+命令基本语法	功能描述
+help	显示所有操作命令
+ls path [watch]	使用 ls 命令来查看当前znode中所包含的内容
+ls2 path [watch]	查看当前节点数据并能看到更新次数等数据
+create	普通创建
+-s  含有序列
+-e  临时（重启或者超时消失）
+get path [watch]	获得节点的值
+set	设置节点的具体值
+stat	查看节点状态
+delete	删除节点
+rmr	递归删除节点
+
+cZxid	 数据节点创建时的事务ID
+ctime	 数据节点创建时的时间
+mZxid	 数据节点最后一次更新时的事务ID
+mtime	 数据节点最后一次更新时的时间
+pZxid	 数据节点的子节点列表最后一次被修改（是子节点列表变更，而不是子节点内容变更）时的事务ID
+cversion	 子节点的版本号
+dataVersion	 数据节点的版本号
+aclVersion	 数据节点的ACL版本号
+ephemeralOwner 	 如果节点是临时节点，则表示创建该节点的会话的SessionID；如果节点是持久节点，则该属性值为0
+dataLength	 数据内容的长度
+numChildren	 数据节点当前的子节点个数
+
+ls /
+
+--创建节点
+create /aa "my first zk"  --默认是不带编号的
+create -s /bb "bb"  --创建带编号的持久性节点"bb"
+create -e /cc "cc"  --创建不带编号的临时节点"cc"
+create -s -e /dd "dd"  --创建带编号的临时节点"dd"
+--关闭创建临时节点的窗口, 临时节点就会消失
+
+delete /node --删除节点
+rmr /node/node--递归删除节点
+
+get /node  --显示节点的信息
+set /node "data" --设置节点信息
+
+stat /node  --查看一个文件的状态信息
+
+get /node watch  --注册监听/node节点数据变化. set /node 会收到节点数据变化的监听
+ls /node wathc  -- 注册监听/sanguo节点的子节点变化 create/node/sun 会收到子节点数据变化的监听
